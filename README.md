@@ -29,7 +29,7 @@ The number of homework results is not fixed. The final implementation will read 
 ## Development status
 
 - [x] Initial repository and README
-- [ ] `Person` class and Rule of Three
+- [x] `Person` class and Rule of Three
 - [ ] Average calculation
 - [ ] Dynamic homework data with `std::vector`
 - [ ] Median calculation
@@ -37,6 +37,17 @@ The number of homework results is not fixed. The final implementation will read 
 - [ ] File input from `Students.txt`
 - [ ] Sorting and formatted output
 - [ ] Testing and release `v0.1`
+
+## Current version
+
+The current `v0.1` stage contains a simple interactive test program. It reads one student record, prints the record, calculates the initial weighted final grade, and exercises the copy constructor and copy-assignment operator.
+
+Compile and run it with:
+
+```bash
+g++ -std=c++17 -Wall -Wextra -pedantic main.cpp Person.cpp -o students
+./students
+```
 
 ## References
 
