@@ -59,16 +59,20 @@ Person::~Person() {
     delete[] homework_;
 }
 
-double Person::calculateFinalGrade() const {
-    double homeworkAverage = 0.0;
+double Person::homeworkAverage() const {
+    double average = 0.0;
     if (homeworkCount_ > 0) {
         for (int i = 0; i < homeworkCount_; ++i) {
-            homeworkAverage += homework_[i];
+            average += homework_[i];
         }
-        homeworkAverage /= homeworkCount_;
+        average /= homeworkCount_;
     }
 
-    return 0.3 * homeworkAverage + 0.7 * exam_;
+    return average;
+}
+
+double Person::calculateFinalGrade() const {
+    return 0.3 * homeworkAverage() + 0.7 * exam_;
 }
 
 const std::string& Person::firstName() const {

@@ -15,9 +15,16 @@ int main() {
     }
 
     std::cout << "\nStudent: " << student << '\n';
-    std::cout << std::fixed << std::setprecision(2)
-              << "Final grade calculation result: "
-              << student.calculateFinalGrade() << '\n';
+    std::cout << "\n" << std::left << std::setw(15) << "Name"
+              << std::setw(15) << "Surname"
+              << std::right << std::setw(18) << "Homework (Avg.)"
+              << std::setw(18) << "Final grade" << '\n';
+    std::cout << std::string(66, '-') << '\n';
+    std::cout << std::left << std::setw(15) << student.firstName()
+              << std::setw(15) << student.surname()
+              << std::right << std::fixed << std::setprecision(2)
+              << std::setw(18) << student.homeworkAverage()
+              << std::setw(18) << student.calculateFinalGrade() << '\n';
 
     // Simple checks that exercise the copy constructor and assignment operator.
     Person copiedStudent(student);

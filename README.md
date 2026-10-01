@@ -30,7 +30,7 @@ The number of homework results is not fixed. The final implementation will read 
 
 - [x] Initial repository and README
 - [x] `Person` class and Rule of Three
-- [ ] Average calculation
+- [x] Average calculation
 - [ ] Dynamic homework data with `std::vector`
 - [ ] Median calculation
 - [ ] Random score generation
@@ -40,7 +40,7 @@ The number of homework results is not fixed. The final implementation will read 
 
 ## Current version
 
-The current `v0.1` stage contains a simple interactive test program. It reads one student record, prints the record, calculates the initial weighted final grade, and exercises the copy constructor and copy-assignment operator.
+The current `v0.1` stage contains a simple interactive test program. It reads one student record, calculates the arithmetic average of the homework results, uses that average in the initial weighted final-grade formula, and exercises the copy constructor and copy-assignment operator.
 
 Compile and run it with:
 

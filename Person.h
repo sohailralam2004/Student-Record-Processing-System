@@ -25,6 +25,7 @@ public:
     Person& operator=(const Person& other);
     ~Person();
 
+    double homeworkAverage() const;
     double calculateFinalGrade() const;
 
     const std::string& firstName() const;
