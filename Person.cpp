@@ -1,5 +1,6 @@
 #include "Person.h"
 
+#include <algorithm>
 #include <iostream>
 
 Person::Person()
@@ -44,6 +45,25 @@ double Person::homeworkAverage() const {
 
 double Person::calculateFinalGrade() const {
     return 0.3 * homeworkAverage() + 0.7 * exam_;
+}
+
+double Person::homeworkMedian() const {
+    if (homework_.empty()) {
+        return 0.0;
+    }
+
+    std::vector<double> sortedHomework = homework_;
+    std::sort(sortedHomework.begin(), sortedHomework.end());
+
+    const std::size_t middle = sortedHomework.size() / 2;
+    if (sortedHomework.size() % 2 == 1) {
+        return sortedHomework[middle];
+    }
+    return (sortedHomework[middle - 1] + sortedHomework[middle]) / 2.0;
+}
+
+double Person::calculateFinalGradeByMedian() const {
+    return 0.3 * homeworkMedian() + 0.7 * exam_;
 }
 
 const std::string& Person::firstName() const {

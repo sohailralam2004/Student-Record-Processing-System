@@ -24,7 +24,9 @@ public:
     ~Person();
 
     double homeworkAverage() const;
+    double homeworkMedian() const;
     double calculateFinalGrade() const;
+    double calculateFinalGradeByMedian() const;
 
     const std::string& firstName() const;
     const std::string& surname() const;

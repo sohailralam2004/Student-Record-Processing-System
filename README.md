@@ -32,7 +32,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] `Person` class and Rule of Three
 - [x] Average calculation
 - [x] Dynamic homework data with `std::vector`
-- [ ] Median calculation
+- [x] Median calculation
 - [ ] Random score generation
 - [ ] File input from `Students.txt`
 - [ ] Sorting and formatted output
@@ -40,13 +40,15 @@ The number of homework results is not fixed. The final implementation will read 
 
 ## Current version
 
-The current `v0.1` stage contains a simple interactive test program. It reads one student record with a variable number of homework scores, calculates their arithmetic average, uses that average in the initial weighted final-grade formula, and exercises the copy constructor and copy-assignment operator.
+The current `v0.1` stage contains a simple interactive test program. It reads one student record with a variable number of homework scores, lets the user choose the average or median method, calculates the selected result, and exercises the copy constructor and copy-assignment operator.
 
 Homework input ends with `-1`, followed by the exam score. For example:
 
 ```text
 Anna Smith 8 9 10 -1 9
 ```
+
+After entering the record, choose `1` for the average or `2` for the median. For an even number of homework scores, the median is the average of the two middle sorted scores.
 
 Compile and run it with:
 
