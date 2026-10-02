@@ -3,24 +3,22 @@
 
 #include <iosfwd>
 #include <string>
+#include <vector>
 
 class Person {
 private:
     std::string firstName_;
     std::string surname_;
-    double* homework_;
-    int homeworkCount_;
+    std::vector<double> homework_;
     double exam_;
     double finalGrade_;
-
-    void copyHomework(const double* homework, int count);
 
 public:
     Person();
     Person(const std::string& firstName, const std::string& surname,
-           const double* homework, int homeworkCount, double exam);
+           const std::vector<double>& homework, double exam);
 
-    // Rule of Three
+    // Rule of Three, written explicitly as required by the assignment.
     Person(const Person& other);
     Person& operator=(const Person& other);
     ~Person();

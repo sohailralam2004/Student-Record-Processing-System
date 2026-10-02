@@ -1,54 +1,25 @@
 #include "Person.h"
 
-#include <algorithm>
-#include <iomanip>
 #include <iostream>
-#include <stdexcept>
-
-void Person::copyHomework(const double* homework, int count) {
-    if (count < 0) {
-        throw std::invalid_argument("Homework count cannot be negative");
-    }
-
-    homeworkCount_ = count;
-    homework_ = count > 0 ? new double[count] : nullptr;
-
-    for (int i = 0; i < homeworkCount_; ++i) {
-        homework_[i] = homework[i];
-    }
-}
 
 Person::Person()
-    : firstName_(), surname_(), homework_(nullptr), homeworkCount_(0),
-      exam_(0.0), finalGrade_(0.0) {}
+    : firstName_(), surname_(), homework_(), exam_(0.0), finalGrade_(0.0) {}
 
 Person::Person(const std::string& firstName, const std::string& surname,
-               const double* homework, int homeworkCount, double exam)
-    : firstName_(firstName), surname_(surname), homework_(nullptr),
-      homeworkCount_(0), exam_(exam), finalGrade_(0.0) {
-    copyHomework(homework, homeworkCount);
-}
+               const std::vector<double>& homework, double exam)
+    : firstName_(firstName), surname_(surname), homework_(homework),
+      exam_(exam), finalGrade_(0.0) {}
 
 Person::Person(const Person& other)
-    : firstName_(other.firstName_), surname_(other.surname_), homework_(nullptr),
-      homeworkCount_(0), exam_(other.exam_), finalGrade_(other.finalGrade_) {
-    copyHomework(other.homework_, other.homeworkCount_);
-}
+    : firstName_(other.firstName_), surname_(other.surname_),
+      homework_(other.homework_), exam_(other.exam_),
+      finalGrade_(other.finalGrade_) {}
 
 Person& Person::operator=(const Person& other) {
     if (this != &other) {
-        double* newHomework = other.homeworkCount_ > 0
-                                  ? new double[other.homeworkCount_]
-                                  : nullptr;
-        for (int i = 0; i < other.homeworkCount_; ++i) {
-            newHomework[i] = other.homework_[i];
-        }
-
-        delete[] homework_;
-        homework_ = newHomework;
-        homeworkCount_ = other.homeworkCount_;
         firstName_ = other.firstName_;
         surname_ = other.surname_;
+        homework_ = other.homework_;
         exam_ = other.exam_;
         finalGrade_ = other.finalGrade_;
     }
@@ -56,19 +27,19 @@ Person& Person::operator=(const Person& other) {
 }
 
 Person::~Person() {
-    delete[] homework_;
+    // std::vector releases its own memory.
 }
 
 double Person::homeworkAverage() const {
-    double average = 0.0;
-    if (homeworkCount_ > 0) {
-        for (int i = 0; i < homeworkCount_; ++i) {
-            average += homework_[i];
-        }
-        average /= homeworkCount_;
+    if (homework_.empty()) {
+        return 0.0;
     }
 
-    return average;
+    double sum = 0.0;
+    for (double score : homework_) {
+        sum += score;
+    }
+    return sum / homework_.size();
 }
 
 double Person::calculateFinalGrade() const {
@@ -88,38 +59,34 @@ double Person::finalGrade() const {
 }
 
 std::istream& operator>>(std::istream& input, Person& person) {
-    int count = 0;
-    input >> person.firstName_ >> person.surname_ >> count;
+    input >> person.firstName_ >> person.surname_;
+    if (!input) {
+        return input;
+    }
+
+    std::vector<double> newHomework;
+    double score = 0.0;
+    while (input >> score && score != -1.0) {
+        newHomework.push_back(score);
+    }
 
     if (!input) {
         return input;
     }
-    if (count < 0) {
-        input.setstate(std::ios::failbit);
-        return input;
-    }
 
-    double* newHomework = count > 0 ? new double[count] : nullptr;
-    for (int i = 0; i < count; ++i) {
-        input >> newHomework[i];
-    }
     input >> person.exam_;
-
     if (!input) {
-        delete[] newHomework;
         return input;
     }
 
-    delete[] person.homework_;
     person.homework_ = newHomework;
-    person.homeworkCount_ = count;
     person.finalGrade_ = 0.0;
     return input;
 }
 
 std::ostream& operator<<(std::ostream& output, const Person& person) {
     output << person.firstName_ << ' ' << person.surname_
-           << " (homework: " << person.homeworkCount_
+           << " (homework: " << person.homework_.size()
            << ", exam: " << person.exam_ << ')';
     return output;
 }

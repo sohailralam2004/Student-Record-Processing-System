@@ -31,7 +31,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Initial repository and README
 - [x] `Person` class and Rule of Three
 - [x] Average calculation
-- [ ] Dynamic homework data with `std::vector`
+- [x] Dynamic homework data with `std::vector`
 - [ ] Median calculation
 - [ ] Random score generation
 - [ ] File input from `Students.txt`
@@ -40,7 +40,13 @@ The number of homework results is not fixed. The final implementation will read 
 
 ## Current version
 
-The current `v0.1` stage contains a simple interactive test program. It reads one student record, calculates the arithmetic average of the homework results, uses that average in the initial weighted final-grade formula, and exercises the copy constructor and copy-assignment operator.
+The current `v0.1` stage contains a simple interactive test program. It reads one student record with a variable number of homework scores, calculates their arithmetic average, uses that average in the initial weighted final-grade formula, and exercises the copy constructor and copy-assignment operator.
+
+Homework input ends with `-1`, followed by the exam score. For example:
+
+```text
+Anna Smith 8 9 10 -1 9
+```
 
 Compile and run it with:
 

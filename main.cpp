@@ -2,12 +2,13 @@
 
 #include <iomanip>
 #include <iostream>
+#include <string>
 
 int main() {
     Person student;
 
-    std::cout << "Enter: first name, surname, homework count, homework scores, exam score\n";
-    std::cout << "Example: Anna Smith 3 8 9 10 9\n> ";
+    std::cout << "Enter: first name, surname, homework scores, -1, exam score\n";
+    std::cout << "Example: Anna Smith 8 9 10 -1 9\n> ";
 
     if (!(std::cin >> student)) {
         std::cerr << "Invalid student data.\n";
@@ -26,7 +27,7 @@ int main() {
               << std::setw(18) << student.homeworkAverage()
               << std::setw(18) << student.calculateFinalGrade() << '\n';
 
-    // Simple checks that exercise the copy constructor and assignment operator.
+    // Simple checks that exercise the explicitly defined Rule of Three.
     Person copiedStudent(student);
     Person assignedStudent;
     assignedStudent = student;
