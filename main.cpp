@@ -2,17 +2,52 @@
 
 #include <iomanip>
 #include <iostream>
+#include <random>
 #include <string>
+#include <vector>
 
 int main() {
     Person student;
 
-    std::cout << "Enter: first name, surname, homework scores, -1, exam score\n";
-    std::cout << "Example: Anna Smith 8 9 10 -1 9\n> ";
-
-    if (!(std::cin >> student)) {
-        std::cerr << "Invalid student data.\n";
+    int inputMode = 1;
+    std::cout << "Choose data input (1 - manual, 2 - random): ";
+    if (!(std::cin >> inputMode) || (inputMode != 1 && inputMode != 2)) {
+        std::cerr << "Invalid input mode.\n";
         return 1;
+    }
+
+    if (inputMode == 1) {
+        std::cout << "Enter: first name, surname, homework scores, -1, exam score\n";
+        std::cout << "Example: Anna Smith 8 9 10 -1 9\n> ";
+
+        if (!(std::cin >> student)) {
+            std::cerr << "Invalid student data.\n";
+            return 1;
+        }
+    } else {
+        std::string firstName;
+        std::string surname;
+        int homeworkCount = 0;
+
+        std::cout << "Enter first name, surname and homework count: ";
+        if (!(std::cin >> firstName >> surname >> homeworkCount) ||
+            homeworkCount < 0) {
+            std::cerr << "Invalid random student data.\n";
+            return 1;
+        }
+
+        std::random_device seed;
+        std::mt19937 generator(seed());
+        std::uniform_int_distribution<int> scoreDistribution(0, 10);
+
+        std::vector<double> homework;
+        for (int i = 0; i < homeworkCount; ++i) {
+            homework.push_back(scoreDistribution(generator));
+        }
+        const double exam = scoreDistribution(generator);
+        student = Person(firstName, surname, homework, exam);
+
+        std::cout << "Random scores generated on the range 0..10.\n";
     }
 
     int method = 1;

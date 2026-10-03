@@ -33,7 +33,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Average calculation
 - [x] Dynamic homework data with `std::vector`
 - [x] Median calculation
-- [ ] Random score generation
+- [x] Random score generation
 - [ ] File input from `Students.txt`
 - [ ] Sorting and formatted output
 - [ ] Testing and release `v0.1`
@@ -49,6 +49,8 @@ Anna Smith 8 9 10 -1 9
 ```
 
 After entering the record, choose `1` for the average or `2` for the median. For an even number of homework scores, the median is the average of the two middle sorted scores.
+
+The program also supports random data generation. Choose `2`, then enter the first name, surname, and number of homework assignments. Homework and exam scores are generated as integers from `0` to `10`.
 
 Compile and run it with:
 
