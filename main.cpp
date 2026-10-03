@@ -7,8 +7,33 @@
 #include <string>
 #include <vector>
 
+bool loadStudentsFromFile(const std::string& fileName,
+                          std::vector<Person>& students) {
+    std::ifstream dataFile(fileName);
+    std::string header;
+    std::string dataLine;
+
+    if (!dataFile || !std::getline(dataFile, header)) {
+        return false;
+    }
+
+    while (std::getline(dataFile, dataLine)) {
+        if (dataLine.empty()) {
+            continue;
+        }
+
+        Person student;
+        if (student.readFileLine(dataLine)) {
+            students.push_back(student);
+        }
+    }
+
+    return !students.empty();
+}
+
 int main() {
     Person student;
+    std::vector<Person> students;
 
     int inputMode = 1;
     std::cout << "Choose data input (1 - manual, 2 - random, 3 - file): ";
@@ -50,16 +75,13 @@ int main() {
 
         std::cout << "Random scores generated on the range 0..10.\n";
     } else {
-        std::ifstream dataFile("Students.txt");
-        std::string header;
-        std::string dataLine;
-
-        if (!dataFile || !std::getline(dataFile, header) ||
-            !std::getline(dataFile, dataLine) || !student.readFileLine(dataLine)) {
-            std::cerr << "Could not read a student record from Students.txt.\n";
+        if (!loadStudentsFromFile("Students.txt", students)) {
+            std::cerr << "Could not read student records from Students.txt.\n";
             return 1;
         }
-        std::cout << "First student record read from Students.txt.\n";
+        student = students.front();
+        std::cout << students.size()
+                  << " student records loaded into vector<Person>.\n";
     }
 
     int method = 1;

@@ -36,7 +36,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Random score generation
 - [x] Create `Students.txt` data file
 - [x] Read one record from `Students.txt`
-- [ ] Read all records from `Students.txt`
+- [x] Read all records from `Students.txt` into `std::vector<Person>`
 - [ ] Sorting and formatted output
 - [ ] Testing and release `v0.1`
 
@@ -54,9 +54,9 @@ After entering the record, choose `1` for the average or `2` for the median. For
 
 The program also supports random data generation. Choose `2`, then enter the first name, surname, and number of homework assignments. Homework and exam scores are generated as integers from `0` to `10`.
 
-Choose `3` to open `Students.txt`, skip its header, and read the first student record. Reading all records will be added in a later stage.
+Choose `3` to open `Students.txt`, skip its header, read all valid student records, and store them in `std::vector<Person>`. The current output still displays the first loaded student; displaying the complete list will be added in the next stage.
 
-The project also includes a preliminary `Students.txt` file with sample student records. File reading will be implemented in the next stage.
+The project also includes a preliminary `Students.txt` file with sample student records.
 
 Compile and run it with:
 
