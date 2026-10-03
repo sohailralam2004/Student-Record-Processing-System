@@ -28,6 +28,8 @@ public:
     double calculateFinalGrade() const;
     double calculateFinalGradeByMedian() const;
 
+    bool readFileLine(const std::string& line);
+
     const std::string& firstName() const;
     const std::string& surname() const;
     double finalGrade() const;

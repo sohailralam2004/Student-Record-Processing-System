@@ -1,6 +1,7 @@
 #include "Person.h"
 
 #include <iomanip>
+#include <fstream>
 #include <iostream>
 #include <random>
 #include <string>
@@ -10,8 +11,8 @@ int main() {
     Person student;
 
     int inputMode = 1;
-    std::cout << "Choose data input (1 - manual, 2 - random): ";
-    if (!(std::cin >> inputMode) || (inputMode != 1 && inputMode != 2)) {
+    std::cout << "Choose data input (1 - manual, 2 - random, 3 - file): ";
+    if (!(std::cin >> inputMode) || (inputMode < 1 || inputMode > 3)) {
         std::cerr << "Invalid input mode.\n";
         return 1;
     }
@@ -24,7 +25,7 @@ int main() {
             std::cerr << "Invalid student data.\n";
             return 1;
         }
-    } else {
+    } else if (inputMode == 2) {
         std::string firstName;
         std::string surname;
         int homeworkCount = 0;
@@ -48,6 +49,17 @@ int main() {
         student = Person(firstName, surname, homework, exam);
 
         std::cout << "Random scores generated on the range 0..10.\n";
+    } else {
+        std::ifstream dataFile("Students.txt");
+        std::string header;
+        std::string dataLine;
+
+        if (!dataFile || !std::getline(dataFile, header) ||
+            !std::getline(dataFile, dataLine) || !student.readFileLine(dataLine)) {
+            std::cerr << "Could not read a student record from Students.txt.\n";
+            return 1;
+        }
+        std::cout << "First student record read from Students.txt.\n";
     }
 
     int method = 1;

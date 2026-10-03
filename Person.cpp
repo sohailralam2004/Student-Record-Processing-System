@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 
 Person::Person()
     : firstName_(), surname_(), homework_(), exam_(0.0), finalGrade_(0.0) {}
@@ -64,6 +65,34 @@ double Person::homeworkMedian() const {
 
 double Person::calculateFinalGradeByMedian() const {
     return 0.3 * homeworkMedian() + 0.7 * exam_;
+}
+
+bool Person::readFileLine(const std::string& line) {
+    std::istringstream row(line);
+    std::string firstName;
+    std::string surname;
+    std::vector<double> values;
+    double value = 0.0;
+
+    if (!(row >> firstName >> surname)) {
+        return false;
+    }
+    while (row >> value) {
+        values.push_back(value);
+    }
+
+    if (values.empty()) {
+        return false;
+    }
+
+    const double exam = values.back();
+    values.pop_back();
+    firstName_ = firstName;
+    surname_ = surname;
+    homework_ = values;
+    exam_ = exam;
+    finalGrade_ = 0.0;
+    return true;
 }
 
 const std::string& Person::firstName() const {
