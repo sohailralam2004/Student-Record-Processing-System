@@ -41,7 +41,7 @@ double Person::homeworkAverage() const {
     for (double score : homework_) {
         sum += score;
     }
-    return sum / homework_.size();
+    return sum / static_cast<double>(homework_.size());
 }
 
 double Person::calculateFinalGrade() const {
