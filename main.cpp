@@ -31,6 +31,24 @@ bool loadStudentsFromFile(const std::string& fileName,
     return !students.empty();
 }
 
+void printAllStudents(const std::vector<Person>& students) {
+    std::cout << "\n" << std::left << std::setw(15) << "Name"
+              << std::setw(15) << "Surname"
+              << std::right << std::setw(16) << "Final (Avg.)"
+              << " | " << std::setw(14) << "Final (Med.)" << '\n';
+    std::cout << std::string(66, '-') << '\n';
+
+    std::cout << std::fixed << std::setprecision(2);
+    for (const Person& currentStudent : students) {
+        std::cout << std::left << std::setw(15) << currentStudent.firstName()
+                  << std::setw(15) << currentStudent.surname()
+                  << std::right << std::setw(16)
+                  << currentStudent.calculateFinalGrade() << " | "
+                  << std::setw(14)
+                  << currentStudent.calculateFinalGradeByMedian() << '\n';
+    }
+}
+
 int main() {
     Person student;
     std::vector<Person> students;
@@ -82,6 +100,9 @@ int main() {
         student = students.front();
         std::cout << students.size()
                   << " student records loaded into vector<Person>.\n";
+
+        printAllStudents(students);
+        return 0;
     }
 
     int method = 1;
