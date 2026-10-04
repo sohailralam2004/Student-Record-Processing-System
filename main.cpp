@@ -1,5 +1,6 @@
 #include "Person.h"
 
+#include <algorithm>
 #include <iomanip>
 #include <fstream>
 #include <iostream>
@@ -47,6 +48,16 @@ void printAllStudents(const std::vector<Person>& students) {
                   << std::setw(14)
                   << currentStudent.calculateFinalGradeByMedian() << '\n';
     }
+}
+
+void sortStudentsBySurname(std::vector<Person>& students) {
+    std::sort(students.begin(), students.end(),
+              [](const Person& left, const Person& right) {
+                  if (left.surname() != right.surname()) {
+                      return left.surname() < right.surname();
+                  }
+                  return left.firstName() < right.firstName();
+              });
 }
 
 int main() {
@@ -97,9 +108,10 @@ int main() {
             std::cerr << "Could not read student records from Students.txt.\n";
             return 1;
         }
+        sortStudentsBySurname(students);
         student = students.front();
         std::cout << students.size()
-                  << " student records loaded into vector<Person>.\n";
+                  << " student records loaded and sorted by surname.\n";
 
         printAllStudents(students);
         return 0;
