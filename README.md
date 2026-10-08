@@ -43,7 +43,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Release `v0.1`
 - [x] Create `v0.2` branch from the stable `v0.1` version
 - [x] Refactor student-file operations into `StudentManager.h/.cpp`
-- [ ] Add exception handling for `v0.2`
+- [x] Add exception handling for files and user input
 - [ ] Generate large student files and measure performance
 
 ## Current version
@@ -63,6 +63,8 @@ The program also supports random data generation. Choose `2`, then enter the fir
 Choose `3` to open `Students.txt`, skip its header, read all valid student records, store them in `std::vector<Person>`, and sort them by surname. The program displays both final-grade calculations for every loaded student.
 
 The project was tested with manual input, random input, file input, average calculation, median calculation, and an even number of homework scores. Temporary executable files are not kept in the repository.
+
+The `v0.2` branch uses `StudentException` to report missing or empty files, invalid file headers, malformed student records, out-of-range scores, and invalid menu or calculation choices. Errors are caught in `main.cpp` and reported without an unhandled exception.
 
 The project also includes a preliminary `Students.txt` file with sample student records.
 

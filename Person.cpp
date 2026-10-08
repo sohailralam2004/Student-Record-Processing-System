@@ -1,6 +1,7 @@
 #include "Person.h"
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <sstream>
 
@@ -81,8 +82,14 @@ bool Person::readFileLine(const std::string& line) {
         values.push_back(value);
     }
 
-    if (values.empty()) {
+    if (!row.eof() || values.empty()) {
         return false;
+    }
+
+    for (double score : values) {
+        if (!std::isfinite(score) || score < 0.0 || score > 10.0) {
+            return false;
+        }
     }
 
     const double exam = values.back();
@@ -116,6 +123,10 @@ std::istream& operator>>(std::istream& input, Person& person) {
     std::vector<double> newHomework;
     double score = 0.0;
     while (input >> score && score != -1.0) {
+        if (!std::isfinite(score) || score < 0.0 || score > 10.0) {
+            input.setstate(std::ios::failbit);
+            return input;
+        }
         newHomework.push_back(score);
     }
 
@@ -124,7 +135,9 @@ std::istream& operator>>(std::istream& input, Person& person) {
     }
 
     input >> person.exam_;
-    if (!input) {
+    if (!input || !std::isfinite(person.exam_) || person.exam_ < 0.0 ||
+        person.exam_ > 10.0) {
+        input.setstate(std::ios::failbit);
         return input;
     }
 

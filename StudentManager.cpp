@@ -1,4 +1,5 @@
 #include "StudentManager.h"
+#include "StudentException.h"
 
 #include <algorithm>
 #include <fstream>
@@ -12,23 +13,35 @@ bool StudentManager::loadFromFile(const std::string& fileName) {
     std::string dataLine;
     std::vector<Person> loadedStudents;
 
-    if (!dataFile || !std::getline(dataFile, header)) {
-        return false;
+    if (!dataFile) {
+        throw StudentException("Cannot open input file: " + fileName);
+    }
+    if (!std::getline(dataFile, header)) {
+        throw StudentException("Input file is empty: " + fileName);
+    }
+    if (header.find("Name") == std::string::npos ||
+        header.find("Surname") == std::string::npos) {
+        throw StudentException("Invalid header in input file: " + fileName);
     }
 
+    std::size_t lineNumber = 1;
     while (std::getline(dataFile, dataLine)) {
+        ++lineNumber;
         if (dataLine.empty()) {
             continue;
         }
 
         Person student;
-        if (student.readFileLine(dataLine)) {
-            loadedStudents.push_back(student);
+        if (!student.readFileLine(dataLine)) {
+            throw StudentException("Invalid student record at line " +
+                                   std::to_string(lineNumber));
         }
+        loadedStudents.push_back(student);
     }
 
     if (loadedStudents.empty()) {
-        return false;
+        throw StudentException("Input file contains no student records: " +
+                               fileName);
     }
 
     students_ = loadedStudents;
