@@ -1,0 +1,3 @@
+# Generated performance-test data is created locally by generator_main.cpp.
+# The large files are intentionally not committed to the repository.
+generated_data/
