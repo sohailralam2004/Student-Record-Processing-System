@@ -1,68 +1,15 @@
 #include "Person.h"
+#include "StudentManager.h"
 
-#include <algorithm>
 #include <iomanip>
-#include <fstream>
 #include <iostream>
 #include <random>
 #include <string>
 #include <vector>
 
-bool loadStudentsFromFile(const std::string& fileName,
-                          std::vector<Person>& students) {
-    std::ifstream dataFile(fileName);
-    std::string header;
-    std::string dataLine;
-
-    if (!dataFile || !std::getline(dataFile, header)) {
-        return false;
-    }
-
-    while (std::getline(dataFile, dataLine)) {
-        if (dataLine.empty()) {
-            continue;
-        }
-
-        Person student;
-        if (student.readFileLine(dataLine)) {
-            students.push_back(student);
-        }
-    }
-
-    return !students.empty();
-}
-
-void printAllStudents(const std::vector<Person>& students) {
-    std::cout << "\n" << std::left << std::setw(15) << "Name"
-              << std::setw(15) << "Surname"
-              << std::right << std::setw(16) << "Final (Avg.)"
-              << " | " << std::setw(14) << "Final (Med.)" << '\n';
-    std::cout << std::string(66, '-') << '\n';
-
-    std::cout << std::fixed << std::setprecision(2);
-    for (const Person& currentStudent : students) {
-        std::cout << std::left << std::setw(15) << currentStudent.firstName()
-                  << std::setw(15) << currentStudent.surname()
-                  << std::right << std::setw(16)
-                  << currentStudent.calculateFinalGrade() << " | "
-                  << std::setw(14)
-                  << currentStudent.calculateFinalGradeByMedian() << '\n';
-    }
-}
-
-void sortStudentsBySurname(std::vector<Person>& students) {
-    std::sort(students.begin(), students.end(),
-              [](const Person& left, const Person& right) {
-                  if (left.surname() != right.surname()) {
-                      return left.surname() < right.surname();
-                  }
-                  return left.firstName() < right.firstName();
-              });
-}
-
 int main() {
     Person student;
-    std::vector<Person> students;
+    StudentManager studentManager;
 
     int inputMode = 1;
     std::cout << "Choose data input (1 - manual, 2 - random, 3 - file): ";
@@ -104,16 +51,14 @@ int main() {
 
         std::cout << "Random scores generated on the range 0..10.\n";
     } else {
-        if (!loadStudentsFromFile("Students.txt", students)) {
+        if (!studentManager.loadFromFile("Students.txt")) {
             std::cerr << "Could not read student records from Students.txt.\n";
             return 1;
         }
-        sortStudentsBySurname(students);
-        student = students.front();
-        std::cout << students.size()
+        studentManager.sortBySurname();
+        std::cout << studentManager.students().size()
                   << " student records loaded and sorted by surname.\n";
-
-        printAllStudents(students);
+        studentManager.printReport(std::cout);
         return 0;
     }
 

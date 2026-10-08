@@ -40,11 +40,15 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Display all final grades using average and median
 - [x] Sort students by surname and finalize formatting
 - [x] Test and clean the project
-- [ ] Release `v0.1`
+- [x] Release `v0.1`
+- [x] Create `v0.2` branch from the stable `v0.1` version
+- [x] Refactor student-file operations into `StudentManager.h/.cpp`
+- [ ] Add exception handling for `v0.2`
+- [ ] Generate large student files and measure performance
 
 ## Current version
 
-The current `v0.1` stage contains a simple interactive test program. It reads one student record with a variable number of homework scores, lets the user choose the average or median method, calculates the selected result, and exercises the copy constructor and copy-assignment operator.
+The current `v0.2` development branch is based on the released `v0.1` program. The `Person` class remains responsible for one student's data and calculations, while the new `StudentManager` class is responsible for loading, sorting, and reporting a collection of students.
 
 Homework input ends with `-1`, followed by the exam score. For example:
 
@@ -65,7 +69,7 @@ The project also includes a preliminary `Students.txt` file with sample student 
 Compile and run it with:
 
 ```bash
-g++ -std=c++17 -Wall -Wextra -pedantic main.cpp Person.cpp -o students
+g++ -std=c++17 -Wall -Wextra -pedantic main.cpp Person.cpp StudentManager.cpp -o students
 ./students
 ```
 
