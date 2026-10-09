@@ -32,6 +32,8 @@ public:
 
     const std::string& firstName() const;
     const std::string& surname() const;
+    const std::vector<double>& homeworkScores() const;
+    double exam() const;
     double finalGrade() const;
 
     friend std::istream& operator>>(std::istream& input, Person& person);

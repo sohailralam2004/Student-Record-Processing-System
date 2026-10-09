@@ -110,6 +110,14 @@ const std::string& Person::surname() const {
     return surname_;
 }
 
+const std::vector<double>& Person::homeworkScores() const {
+    return homework_;
+}
+
+double Person::exam() const {
+    return exam_;
+}
+
 double Person::finalGrade() const {
     return finalGrade_;
 }

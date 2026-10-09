@@ -76,6 +76,37 @@ void StudentManager::printReport(std::ostream& output) const {
     }
 }
 
+void StudentManager::splitByFinalGrade(const std::string& passedFileName,
+                                       const std::string& failedFileName) const {
+    std::ofstream passedFile(passedFileName);
+    if (!passedFile) {
+        throw StudentException("Cannot create output file: " + passedFileName);
+    }
+
+    std::ofstream failedFile(failedFileName);
+    if (!failedFile) {
+        throw StudentException("Cannot create output file: " + failedFileName);
+    }
+
+    const std::string header = "Name Surname HW1 HW2 HW3 HW4 HW5 Exam\n";
+    passedFile << header;
+    failedFile << header;
+
+    for (const Person& student : students_) {
+        std::ostream& destination =
+            student.calculateFinalGrade() >= 5.0 ? passedFile : failedFile;
+        destination << student.firstName() << ' ' << student.surname();
+        for (const double score : student.homeworkScores()) {
+            destination << ' ' << score;
+        }
+        destination << ' ' << student.exam() << '\n';
+    }
+
+    if (!passedFile || !failedFile) {
+        throw StudentException("Error while writing split output files.");
+    }
+}
+
 const std::vector<Person>& StudentManager::students() const {
     return students_;
 }

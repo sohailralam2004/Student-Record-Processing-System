@@ -45,6 +45,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Refactor student-file operations into `StudentManager.h/.cpp`
 - [x] Add exception handling for files and user input
 - [x] Add generator for 1,000 to 10,000,000 student records
+- [x] Read large files and split students into `passed` and `failed`
 - [ ] Measure performance on generated files
 
 ## Current version
@@ -85,6 +86,28 @@ g++ -std=c++17 -Wall -Wextra -pedantic \
     generator_main.cpp StudentFileGenerator.cpp -o generate_students
 ./generate_students generated_data
 ```
+
+To process one generated file, read all records into `std::vector<Person>`, and
+write the two categories, build and run the processor:
+
+```bash
+g++ -std=c++17 -Wall -Wextra -pedantic \
+    processor_main.cpp Person.cpp StudentManager.cpp -o processor
+./processor generated_data/Students_10000.txt \
+    generated_data/Students_10000_passed.txt \
+    generated_data/Students_10000_failed.txt
+```
+
+The split rule is:
+
+```text
+final grade >= 5.0  -> passed
+final grade < 5.0   -> failed
+```
+
+Both output files keep the same student-record format as the input file, so
+they can be read again by the application. Detailed speed measurements are
+reserved for the next stage.
 
 ## References
 
