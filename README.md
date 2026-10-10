@@ -46,6 +46,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Add exception handling for files and user input
 - [x] Add generator for 1,000 to 10,000,000 student records
 - [x] Read large files and split students into `passed` and `failed`
+- [x] Sort both output categories by surname and first name
 - [ ] Measure performance on generated files
 
 ## Current version
@@ -106,8 +107,9 @@ final grade < 5.0   -> failed
 ```
 
 Both output files keep the same student-record format as the input file, so
-they can be read again by the application. Detailed speed measurements are
-reserved for the next stage.
+they can be read again by the application. Each output category is sorted by
+surname and then by first name. Detailed speed measurements are reserved for
+the next stage.
 
 ## References
 

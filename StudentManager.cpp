@@ -78,6 +78,28 @@ void StudentManager::printReport(std::ostream& output) const {
 
 void StudentManager::splitByFinalGrade(const std::string& passedFileName,
                                        const std::string& failedFileName) const {
+    std::vector<const Person*> passedStudents;
+    std::vector<const Person*> failedStudents;
+    passedStudents.reserve(students_.size());
+    failedStudents.reserve(students_.size());
+
+    for (const Person& student : students_) {
+        if (student.calculateFinalGrade() >= 5.0) {
+            passedStudents.push_back(&student);
+        } else {
+            failedStudents.push_back(&student);
+        }
+    }
+
+    const auto bySurnameAndName = [](const Person* left, const Person* right) {
+        if (left->surname() != right->surname()) {
+            return left->surname() < right->surname();
+        }
+        return left->firstName() < right->firstName();
+    };
+    std::sort(passedStudents.begin(), passedStudents.end(), bySurnameAndName);
+    std::sort(failedStudents.begin(), failedStudents.end(), bySurnameAndName);
+
     std::ofstream passedFile(passedFileName);
     if (!passedFile) {
         throw StudentException("Cannot create output file: " + passedFileName);
@@ -92,14 +114,19 @@ void StudentManager::splitByFinalGrade(const std::string& passedFileName,
     passedFile << header;
     failedFile << header;
 
-    for (const Person& student : students_) {
-        std::ostream& destination =
-            student.calculateFinalGrade() >= 5.0 ? passedFile : failedFile;
-        destination << student.firstName() << ' ' << student.surname();
+    const auto writeStudent = [](std::ostream& output, const Person& student) {
+        output << student.firstName() << ' ' << student.surname();
         for (const double score : student.homeworkScores()) {
-            destination << ' ' << score;
+            output << ' ' << score;
         }
-        destination << ' ' << student.exam() << '\n';
+        output << ' ' << student.exam() << '\n';
+    };
+
+    for (const Person* student : passedStudents) {
+        writeStudent(passedFile, *student);
+    }
+    for (const Person* student : failedStudents) {
+        writeStudent(failedFile, *student);
     }
 
     if (!passedFile || !failedFile) {
