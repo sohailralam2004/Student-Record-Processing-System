@@ -48,6 +48,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Read large files and split students into `passed` and `failed`
 - [x] Sort both output categories by surname and first name
 - [x] Measure read, sort, split, write, and total processing time
+- [x] Run the benchmark on 1,000 to 10,000,000 records and record results
 
 ## Current version
 
@@ -111,6 +112,9 @@ they can be read again by the application. Each output category is sorted by
 surname and then by first name. The processor reports separate timings for
 reading, sorting, splitting, writing, and the complete operation in
 milliseconds using `std::chrono::steady_clock`.
+
+The benchmark results for all five required file sizes are recorded in
+[`performance_results.md`](performance_results.md).
 
 ## References
 
