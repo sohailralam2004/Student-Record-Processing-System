@@ -49,10 +49,11 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Sort both output categories by surname and first name
 - [x] Measure read, sort, split, write, and total processing time
 - [x] Run the benchmark on 1,000 to 10,000,000 records and record results
+- [x] Final review, cleanup, and release `v0.2`
 
 ## Current version
 
-The current `v0.2` development branch is based on the released `v0.1` program. The `Person` class remains responsible for one student's data and calculations, while the new `StudentManager` class is responsible for loading, sorting, and reporting a collection of students.
+The `v0.2` release is based on the released `v0.1` program. The `Person` class remains responsible for one student's data and calculations, while the `StudentManager` class is responsible for loading, sorting, splitting, and writing a collection of students. The release also includes exception handling, a large-file generator, and vector performance results.
 
 Homework input ends with `-1`, followed by the exam score. For example:
 
