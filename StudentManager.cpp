@@ -76,61 +76,43 @@ void StudentManager::printReport(std::ostream& output) const {
     }
 }
 
-void StudentManager::splitByFinalGrade(const std::string& passedFileName,
-                                       const std::string& failedFileName) const {
-    std::vector<const Person*> passedStudents;
-    std::vector<const Person*> failedStudents;
+void StudentManager::splitByFinalGrade(
+    std::vector<Person>& passedStudents,
+    std::vector<Person>& failedStudents) const {
+    passedStudents.clear();
+    failedStudents.clear();
     passedStudents.reserve(students_.size());
     failedStudents.reserve(students_.size());
 
     for (const Person& student : students_) {
         if (student.calculateFinalGrade() >= 5.0) {
-            passedStudents.push_back(&student);
+            passedStudents.push_back(student);
         } else {
-            failedStudents.push_back(&student);
+            failedStudents.push_back(student);
         }
     }
+}
 
-    const auto bySurnameAndName = [](const Person* left, const Person* right) {
-        if (left->surname() != right->surname()) {
-            return left->surname() < right->surname();
-        }
-        return left->firstName() < right->firstName();
-    };
-    std::sort(passedStudents.begin(), passedStudents.end(), bySurnameAndName);
-    std::sort(failedStudents.begin(), failedStudents.end(), bySurnameAndName);
-
-    std::ofstream passedFile(passedFileName);
-    if (!passedFile) {
-        throw StudentException("Cannot create output file: " + passedFileName);
-    }
-
-    std::ofstream failedFile(failedFileName);
-    if (!failedFile) {
-        throw StudentException("Cannot create output file: " + failedFileName);
+void StudentManager::writeStudentsToFile(
+    const std::string& fileName, const std::vector<Person>& students) const {
+    std::ofstream outputFile(fileName);
+    if (!outputFile) {
+        throw StudentException("Cannot create output file: " + fileName);
     }
 
     const std::string header = "Name Surname HW1 HW2 HW3 HW4 HW5 Exam\n";
-    passedFile << header;
-    failedFile << header;
+    outputFile << header;
 
-    const auto writeStudent = [](std::ostream& output, const Person& student) {
-        output << student.firstName() << ' ' << student.surname();
+    for (const Person& student : students) {
+        outputFile << student.firstName() << ' ' << student.surname();
         for (const double score : student.homeworkScores()) {
-            output << ' ' << score;
+            outputFile << ' ' << score;
         }
-        output << ' ' << student.exam() << '\n';
-    };
-
-    for (const Person* student : passedStudents) {
-        writeStudent(passedFile, *student);
-    }
-    for (const Person* student : failedStudents) {
-        writeStudent(failedFile, *student);
+        outputFile << ' ' << student.exam() << '\n';
     }
 
-    if (!passedFile || !failedFile) {
-        throw StudentException("Error while writing split output files.");
+    if (!outputFile) {
+        throw StudentException("Error while writing output file: " + fileName);
     }
 }
 

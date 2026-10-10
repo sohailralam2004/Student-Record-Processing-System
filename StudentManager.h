@@ -12,8 +12,10 @@ public:
     bool loadFromFile(const std::string& fileName);
     void sortBySurname();
     void printReport(std::ostream& output) const;
-    void splitByFinalGrade(const std::string& passedFileName,
-                           const std::string& failedFileName) const;
+    void splitByFinalGrade(std::vector<Person>& passedStudents,
+                           std::vector<Person>& failedStudents) const;
+    void writeStudentsToFile(const std::string& fileName,
+                             const std::vector<Person>& students) const;
 
     const std::vector<Person>& students() const;
 
