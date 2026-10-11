@@ -51,10 +51,11 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Run the benchmark on 1,000 to 10,000,000 records and record results
 - [x] Final review, cleanup, and release `v0.2`
 - [x] Create `v0.25` from the stable `v0.2` release
+- [x] Implement the `std::list<Person>` processing version
 
 ## Current version
 
-The `v0.25` branch starts from the stable `v0.2` release. The `v0.2` implementation remains the reference vector version, while the upcoming `v0.25` work will provide equivalent processing with `std::list` and `std::deque` for container comparison.
+The `v0.25` branch starts from the stable `v0.2` release. The `v0.2` implementation remains the reference `std::vector` version. This stage changes `StudentManager` and the benchmark processor to use `std::list<Person>`; the next stage will add the equivalent `std::deque<Person>` version for container comparison.
 
 Homework input ends with `-1`, followed by the exam score. For example:
 
@@ -66,7 +67,7 @@ After entering the record, choose `1` for the average or `2` for the median. For
 
 The program also supports random data generation. Choose `2`, then enter the first name, surname, and number of homework assignments. Homework and exam scores are generated as integers from `0` to `10`.
 
-Choose `3` to open `Students.txt`, skip its header, read all valid student records, store them in `std::vector<Person>`, and sort them by surname. The program displays both final-grade calculations for every loaded student.
+Choose `3` to open `Students.txt`, skip its header, read all valid student records, store them in the active container, and sort them by surname. On `v0.25`, the active container is `std::list<Person>` and the program displays both final-grade calculations for every loaded student.
 
 The project was tested with manual input, random input, file input, average calculation, median calculation, and an even number of homework scores. Temporary executable files are not kept in the repository.
 
@@ -91,7 +92,7 @@ g++ -std=c++17 -Wall -Wextra -pedantic \
 ./generate_students generated_data
 ```
 
-To process one generated file, read all records into `std::vector<Person>`, and
+To process one generated file, read all records into `std::list<Person>`, and
 write the two categories, build and run the processor:
 
 ```bash

@@ -4,8 +4,8 @@
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+#include <list>
 #include <string>
-#include <vector>
 
 int main(int argc, char* argv[]) {
     if (argc != 4) {
@@ -28,8 +28,8 @@ int main(int argc, char* argv[]) {
         manager.sortBySurname();
         const auto sortEnd = Clock::now();
 
-        std::vector<Person> passedStudents;
-        std::vector<Person> failedStudents;
+        std::list<Person> passedStudents;
+        std::list<Person> failedStudents;
         const auto splitStart = Clock::now();
         manager.splitByFinalGrade(passedStudents, failedStudents);
         const auto splitEnd = Clock::now();

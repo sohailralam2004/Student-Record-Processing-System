@@ -1,7 +1,6 @@
 #include "StudentManager.h"
 #include "StudentException.h"
 
-#include <algorithm>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -11,7 +10,7 @@ bool StudentManager::loadFromFile(const std::string& fileName) {
     std::ifstream dataFile(fileName);
     std::string header;
     std::string dataLine;
-    std::vector<Person> loadedStudents;
+    std::list<Person> loadedStudents;
 
     if (!dataFile) {
         throw StudentException("Cannot open input file: " + fileName);
@@ -49,13 +48,12 @@ bool StudentManager::loadFromFile(const std::string& fileName) {
 }
 
 void StudentManager::sortBySurname() {
-    std::sort(students_.begin(), students_.end(),
-              [](const Person& left, const Person& right) {
-                  if (left.surname() != right.surname()) {
-                      return left.surname() < right.surname();
-                  }
-                  return left.firstName() < right.firstName();
-              });
+    students_.sort([](const Person& left, const Person& right) {
+        if (left.surname() != right.surname()) {
+            return left.surname() < right.surname();
+        }
+        return left.firstName() < right.firstName();
+    });
 }
 
 void StudentManager::printReport(std::ostream& output) const {
@@ -77,12 +75,10 @@ void StudentManager::printReport(std::ostream& output) const {
 }
 
 void StudentManager::splitByFinalGrade(
-    std::vector<Person>& passedStudents,
-    std::vector<Person>& failedStudents) const {
+    std::list<Person>& passedStudents,
+    std::list<Person>& failedStudents) const {
     passedStudents.clear();
     failedStudents.clear();
-    passedStudents.reserve(students_.size());
-    failedStudents.reserve(students_.size());
 
     for (const Person& student : students_) {
         if (student.calculateFinalGrade() >= 5.0) {
@@ -94,7 +90,7 @@ void StudentManager::splitByFinalGrade(
 }
 
 void StudentManager::writeStudentsToFile(
-    const std::string& fileName, const std::vector<Person>& students) const {
+    const std::string& fileName, const std::list<Person>& students) const {
     std::ofstream outputFile(fileName);
     if (!outputFile) {
         throw StudentException("Cannot create output file: " + fileName);
@@ -116,6 +112,6 @@ void StudentManager::writeStudentsToFile(
     }
 }
 
-const std::vector<Person>& StudentManager::students() const {
+const std::list<Person>& StudentManager::students() const {
     return students_;
 }
