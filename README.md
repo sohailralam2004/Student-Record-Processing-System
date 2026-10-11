@@ -54,10 +54,11 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Implement the `std::list<Person>` processing version
 - [x] Implement the `std::deque<Person>` processing version
 - [x] Compare `vector`, `list`, and `deque` on all five required file sizes
+- [x] Final review, cleanup, and release `v0.25`
 
 ## Current version
 
-The `v0.25` branch starts from the stable `v0.2` release. The `v0.2` implementation remains the reference `std::vector` version. The `v0.25` processing implementation uses `std::deque<Person>`, and the common benchmark also runs equivalent `std::vector<Person>` and `std::list<Person>` implementations. All three preserve the same input, sorting, splitting, writing, and timing behavior for container comparison.
+The `v0.25` release is based on the stable `v0.2` release. The `v0.2` implementation remains the reference `std::vector` version. The `v0.25` processing implementation uses `std::deque<Person>`, and the common benchmark also runs equivalent `std::vector<Person>` and `std::list<Person>` implementations. All three preserve the same input, sorting, splitting, writing, and timing behavior for container comparison.
 
 Homework input ends with `-1`, followed by the exam score. For example:
 
