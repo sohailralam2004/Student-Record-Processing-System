@@ -50,10 +50,11 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Measure read, sort, split, write, and total processing time
 - [x] Run the benchmark on 1,000 to 10,000,000 records and record results
 - [x] Final review, cleanup, and release `v0.2`
+- [x] Create `v0.25` from the stable `v0.2` release
 
 ## Current version
 
-The `v0.2` release is based on the released `v0.1` program. The `Person` class remains responsible for one student's data and calculations, while the `StudentManager` class is responsible for loading, sorting, splitting, and writing a collection of students. The release also includes exception handling, a large-file generator, and vector performance results.
+The `v0.25` branch starts from the stable `v0.2` release. The `v0.2` implementation remains the reference vector version, while the upcoming `v0.25` work will provide equivalent processing with `std::list` and `std::deque` for container comparison.
 
 Homework input ends with `-1`, followed by the exam score. For example:
 
