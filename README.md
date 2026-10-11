@@ -53,10 +53,11 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Create `v0.25` from the stable `v0.2` release
 - [x] Implement the `std::list<Person>` processing version
 - [x] Implement the `std::deque<Person>` processing version
+- [x] Compare `vector`, `list`, and `deque` on all five required file sizes
 
 ## Current version
 
-The `v0.25` branch starts from the stable `v0.2` release. The `v0.2` implementation remains the reference `std::vector` version. The `v0.25` implementation now uses `std::deque<Person>` for student records; the preceding stage used `std::list<Person>`. Both implementations preserve the same input, sorting, splitting, writing, and timing behavior for container comparison.
+The `v0.25` branch starts from the stable `v0.2` release. The `v0.2` implementation remains the reference `std::vector` version. The `v0.25` processing implementation uses `std::deque<Person>`, and the common benchmark also runs equivalent `std::vector<Person>` and `std::list<Person>` implementations. All three preserve the same input, sorting, splitting, writing, and timing behavior for container comparison.
 
 Homework input ends with `-1`, followed by the exam score. For example:
 
@@ -103,6 +104,19 @@ g++ -std=c++17 -Wall -Wextra -pedantic \
     generated_data/Students_10000_passed.txt \
     generated_data/Students_10000_failed.txt
 ```
+
+To compare all three containers on one input file, build and run the common
+benchmark:
+
+```bash
+g++ -std=c++17 -O2 -Wall -Wextra -Wpedantic \
+    container_benchmark.cpp Person.cpp -o container_benchmark
+./container_benchmark generated_data/Students_10000.txt benchmark_output
+```
+
+The benchmark reports CSV timings for `vector`, `list`, and `deque`. The
+results for all five required file sizes are recorded in
+[`container_comparison_results.md`](container_comparison_results.md).
 
 The split rule is:
 
