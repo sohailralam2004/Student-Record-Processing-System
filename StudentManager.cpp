@@ -1,6 +1,7 @@
 #include "StudentManager.h"
 #include "StudentException.h"
 
+#include <algorithm>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -10,7 +11,7 @@ bool StudentManager::loadFromFile(const std::string& fileName) {
     std::ifstream dataFile(fileName);
     std::string header;
     std::string dataLine;
-    std::list<Person> loadedStudents;
+    std::deque<Person> loadedStudents;
 
     if (!dataFile) {
         throw StudentException("Cannot open input file: " + fileName);
@@ -48,12 +49,13 @@ bool StudentManager::loadFromFile(const std::string& fileName) {
 }
 
 void StudentManager::sortBySurname() {
-    students_.sort([](const Person& left, const Person& right) {
-        if (left.surname() != right.surname()) {
-            return left.surname() < right.surname();
-        }
-        return left.firstName() < right.firstName();
-    });
+    std::sort(students_.begin(), students_.end(),
+              [](const Person& left, const Person& right) {
+                  if (left.surname() != right.surname()) {
+                      return left.surname() < right.surname();
+                  }
+                  return left.firstName() < right.firstName();
+              });
 }
 
 void StudentManager::printReport(std::ostream& output) const {
@@ -75,8 +77,8 @@ void StudentManager::printReport(std::ostream& output) const {
 }
 
 void StudentManager::splitByFinalGrade(
-    std::list<Person>& passedStudents,
-    std::list<Person>& failedStudents) const {
+    std::deque<Person>& passedStudents,
+    std::deque<Person>& failedStudents) const {
     passedStudents.clear();
     failedStudents.clear();
 
@@ -90,7 +92,7 @@ void StudentManager::splitByFinalGrade(
 }
 
 void StudentManager::writeStudentsToFile(
-    const std::string& fileName, const std::list<Person>& students) const {
+    const std::string& fileName, const std::deque<Person>& students) const {
     std::ofstream outputFile(fileName);
     if (!outputFile) {
         throw StudentException("Cannot create output file: " + fileName);
@@ -112,6 +114,6 @@ void StudentManager::writeStudentsToFile(
     }
 }
 
-const std::list<Person>& StudentManager::students() const {
+const std::deque<Person>& StudentManager::students() const {
     return students_;
 }

@@ -2,9 +2,9 @@
 #include "StudentManager.h"
 
 #include <chrono>
+#include <deque>
 #include <iomanip>
 #include <iostream>
-#include <list>
 #include <string>
 
 int main(int argc, char* argv[]) {
@@ -28,8 +28,8 @@ int main(int argc, char* argv[]) {
         manager.sortBySurname();
         const auto sortEnd = Clock::now();
 
-        std::list<Person> passedStudents;
-        std::list<Person> failedStudents;
+        std::deque<Person> passedStudents;
+        std::deque<Person> failedStudents;
         const auto splitStart = Clock::now();
         manager.splitByFinalGrade(passedStudents, failedStudents);
         const auto splitEnd = Clock::now();
