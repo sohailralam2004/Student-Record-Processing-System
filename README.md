@@ -55,6 +55,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Implement the `std::deque<Person>` processing version
 - [x] Compare `vector`, `list`, and `deque` on all five required file sizes
 - [x] Final review, cleanup, and release `v0.25`
+- [x] Review the requirements for release `v1.0`
 
 ## Current version
 
@@ -134,6 +135,33 @@ milliseconds using `std::chrono::steady_clock`.
 
 The benchmark results for all five required file sizes are recorded in
 [`performance_results.md`](performance_results.md).
+
+## v1.0 requirements review
+
+Release `v1.0` will optimize the `v0.25` implementation while preserving the
+same student-record format and the three-container comparison. The work will
+compare two categorization strategies for `std::vector<Person>`,
+`std::list<Person>`, and `std::deque<Person>`:
+
+1. **Strategy 1:** keep the original students container unchanged and copy
+   students into new `passed` and `failed` containers of the same type.
+2. **Strategy 2:** move failed students into one new `failed` container and
+   remove them from the original container, leaving only passed students in
+   the original container.
+
+Both strategies will be measured for reading, sorting, categorization,
+deletion or copying where applicable, writing, and total execution time on the
+five existing data sizes. The results will be checked for record conservation
+and identical pass/fail classification.
+
+After the initial comparison, the fastest container and strategy will be
+refactored with suitable algorithms from `<algorithm>`, including candidates
+such as `std::copy`, `std::remove_if`, `std::partition`, and
+`std::stable_partition`. The before-and-after results will be documented.
+
+The final release must also provide a Unix `Makefile`, a portable
+`CMakeLists.txt`, a usage guide starting with the build step, a clean source
+repository, synchronized `v1.0` and `master` branches, and Release `v1.0`.
 
 ## References
 
