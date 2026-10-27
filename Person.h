@@ -23,6 +23,9 @@ public:
     Person& operator=(const Person& other);
     ~Person();
 
+    Person(Person&& other) noexcept;
+    Person& operator=(Person&& other) noexcept;
+
     double homeworkAverage() const;
     double homeworkMedian() const;
     double calculateFinalGrade() const;

@@ -29,6 +29,10 @@ Person& Person::operator=(const Person& other) {
     return *this;
 }
 
+Person::Person(Person&& other) noexcept = default;
+
+Person& Person::operator=(Person&& other) noexcept = default;
+
 Person::~Person() {
     // std::vector releases its own memory.
 }

@@ -56,10 +56,17 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Compare `vector`, `list`, and `deque` on all five required file sizes
 - [x] Final review, cleanup, and release `v0.25`
 - [x] Review the requirements for release `v1.0`
+- [x] Implement Strategy 1 and Strategy 2 for `vector`, `list`, and `deque`
+- [x] Measure reading, sorting, splitting, writing, and total time for both strategies
 
 ## Current version
 
-The `v0.25` release is based on the stable `v0.2` release. The `v0.2` implementation remains the reference `std::vector` version. The `v0.25` processing implementation uses `std::deque<Person>`, and the common benchmark also runs equivalent `std::vector<Person>` and `std::list<Person>` implementations. All three preserve the same input, sorting, splitting, writing, and timing behavior for container comparison.
+The current branch is the `v1.0` development branch based on the stable
+`v0.25` release. The `v0.25` processing implementation uses
+`std::deque<Person>`, and the common benchmark also runs equivalent
+`std::vector<Person>` and `std::list<Person>` implementations. The new
+`strategy_benchmark.cpp` compares the two `v1.0` categorization strategies for
+all three containers.
 
 Homework input ends with `-1`, followed by the exam score. For example:
 
@@ -162,6 +169,44 @@ such as `std::copy`, `std::remove_if`, `std::partition`, and
 The final release must also provide a Unix `Makefile`, a portable
 `CMakeLists.txt`, a usage guide starting with the build step, a clean source
 repository, synchronized `v1.0` and `master` branches, and Release `v1.0`.
+
+## v1.0 strategy benchmark
+
+The `strategy_benchmark.cpp` program implements both required categorization
+strategies for all three containers. Strategy 1 keeps the original container
+and copies every student into a new `passed` or `failed` container. Strategy 2
+creates only a `failed` container, moves failed records to it, erases them from
+the original container, and leaves passed records in the original container.
+
+The program validates that no records are lost and reports the number of
+original, passed, and failed records. It measures reading, sorting, splitting,
+writing, and total execution time in milliseconds. The menu can run one
+strategy or both strategies and one container or all containers.
+
+Build it with:
+
+```bash
+g++ -std=c++17 -O2 -Wall -Wextra -pedantic \
+    strategy_benchmark.cpp Person.cpp -o strategy_benchmark
+```
+
+Run both strategies on all containers using the menu:
+
+```bash
+./strategy_benchmark
+```
+
+The non-interactive form is useful for repeatable tests:
+
+```bash
+./strategy_benchmark generated_data/Students_10000.txt \
+    strategy_output 3 4
+```
+
+Here, `3` selects both strategies and `4` selects all containers. The output
+files contain the selected strategy, container, and category in their names,
+for example `vector_strategy1_passed.txt` and
+`deque_strategy2_failed.txt`.
 
 ## References
 
