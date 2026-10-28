@@ -58,6 +58,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Review the requirements for release `v1.0`
 - [x] Implement Strategy 1 and Strategy 2 for `vector`, `list`, and `deque`
 - [x] Measure reading, sorting, splitting, writing, and total time for both strategies
+- [x] Replace manual split loops with STL algorithms
 
 ## Current version
 
@@ -207,6 +208,18 @@ Here, `3` selects both strategies and `4` selects all containers. The output
 files contain the selected strategy, container, and category in their names,
 for example `vector_strategy1_passed.txt` and
 `deque_strategy2_failed.txt`.
+
+The categorization implementation uses algorithms from `<algorithm>`:
+
+- `std::copy_if` copies passed and failed records for Strategy 1 while the
+  original container remains unchanged.
+- `std::stable_partition` places passed records before failed records for
+  Strategy 2 while preserving the relative order inside each group.
+- `std::make_move_iterator` moves the failed range into its new container,
+  after which the failed range is erased from the original container.
+
+These algorithms replace the manual categorization loops while preserving the
+required record counts and output ordering.
 
 ## References
 

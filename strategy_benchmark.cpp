@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <iterator>
 #include <list>
 #include <string>
 #include <utility>
@@ -139,13 +140,16 @@ Measurement<Container> runStrategyOne(
     Container passed;
     Container failed;
     const auto splitStart = Clock::now();
-    for (const Person& student : students) {
-        if (student.calculateFinalGrade() >= 5.0) {
-            passed.push_back(student);
-        } else {
-            failed.push_back(student);
-        }
-    }
+    const auto isPassed = [](const Person& student) {
+        return student.calculateFinalGrade() >= 5.0;
+    };
+    std::copy_if(students.begin(), students.end(),
+                 std::back_inserter(passed), isPassed);
+    std::copy_if(students.begin(), students.end(),
+                 std::back_inserter(failed),
+                 [&isPassed](const Person& student) {
+                     return !isPassed(student);
+                 });
     const auto splitEnd = Clock::now();
 
     const auto writeStart = Clock::now();
@@ -193,14 +197,13 @@ Measurement<Container> runStrategyTwo(
 
     Container failed;
     const auto splitStart = Clock::now();
-    for (auto iterator = students.begin(); iterator != students.end();) {
-        if (iterator->calculateFinalGrade() < 5.0) {
-            failed.push_back(std::move(*iterator));
-            iterator = students.erase(iterator);
-        } else {
-            ++iterator;
-        }
-    }
+    const auto firstFailed = std::stable_partition(
+        students.begin(), students.end(), [](const Person& student) {
+            return student.calculateFinalGrade() >= 5.0;
+        });
+    failed.insert(failed.end(), std::make_move_iterator(firstFailed),
+                  std::make_move_iterator(students.end()));
+    students.erase(firstFailed, students.end());
     const auto splitEnd = Clock::now();
 
     const auto writeStart = Clock::now();
