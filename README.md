@@ -59,6 +59,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Implement Strategy 1 and Strategy 2 for `vector`, `list`, and `deque`
 - [x] Measure reading, sorting, splitting, writing, and total time for both strategies
 - [x] Replace manual split loops with STL algorithms
+- [x] Compare baseline and STL-algorithm performance
 
 ## Current version
 
@@ -220,6 +221,14 @@ The categorization implementation uses algorithms from `<algorithm>`:
 
 These algorithms replace the manual categorization loops while preserving the
 required record counts and output ordering.
+
+The before-and-after measurements are documented in
+[`algorithm_comparison_results.md`](algorithm_comparison_results.md). The
+comparison completed for both versions through 1,000,000 records. The
+algorithm version also completed all six 10,000,000-record cases; the baseline
+10,000,000-record run exceeded the available two-hour measurement window, so
+the report leaves those baseline values unspecified rather than estimating
+them.
 
 ## References
 
