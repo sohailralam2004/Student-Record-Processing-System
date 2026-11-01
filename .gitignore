@@ -1,3 +1,13 @@
 # Generated performance-test data is created locally by generator_main.cpp.
 # The large files are intentionally not committed to the repository.
 generated_data/
+
+# Build directories and generated compilation outputs.
+build/
+cmake-build-*/
+*.o
+students
+processor
+generate_students
+container_benchmark
+strategy_benchmark

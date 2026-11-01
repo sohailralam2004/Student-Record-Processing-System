@@ -61,6 +61,7 @@ The number of homework results is not fixed. The final implementation will read 
 - [x] Replace manual split loops with STL algorithms
 - [x] Compare baseline and STL-algorithm performance
 - [x] Add Unix `Makefile` and portable `CMakeLists.txt`
+- [x] Perform final review, cleanup, and build verification for `v1.0`
 
 ## Current version
 
@@ -261,6 +262,10 @@ algorithm version also completed all six 10,000,000-record cases; the baseline
 10,000,000-record run exceeded the available two-hour measurement window, so
 the report leaves those baseline values unspecified rather than estimating
 them.
+
+The final review found no IDE files, executables, object files, generated data,
+or untracked temporary files in the repository. Build outputs are excluded by
+`.gitignore` and can be removed with `make clean`.
 
 ## References
 
